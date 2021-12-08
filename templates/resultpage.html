@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Result Page</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Text Classification Tool</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        
+      </nav>
+    
+    <center>
+      <h1>Here is your results </h1>
+    </center>
+    
+      <div style="width: 50%; float: left" >
+      
+      <br>
+    <h2>WordCloud Result:</h2>
+    
+        <img src="{{ img_file }}"  width="450" height="450">
+        <p>You can download this WordCloud result by clicking the button down below</p>
+        <a href="{{ img_file }}" download="">
+        <button class="btn"><i class="fa fa-download"></i> Download</button>
+    </a>
+    
+    </div>
+
+    <div style="width: 50%; float: right">
+        {% if algorithm == 'naivebayes' %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Topic Number</th>
+              <th scope="col">Topic</th>
+            </tr>
+          </thead>
+            <tbody>
+                {% for result in tpcs %}
+                
+                <tr>
+                  <th scope="row">{{ loop.index }}</th>
+                  <td>{{ result }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+            <center>
+              <p style="font-weight: bold; font-style: italic; font-family: calibri;">The dominant topic is your text file is : {{ dominant }} </p>
+            </center>
+
+            <center>
+              <p>You can download the result table as an excel file by clicking the button below</p>
+              <a href="{{ excelfile }}" download="">
+                <button class="btn"><i class="fa fa-download"></i> Download</button>
+            </a>
+            </center>
+        {% endif %}
+
+        {% if algorithm == 'lda' %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Topic Number</th>
+              <th scope="col">Vocabulary of The Topic</th>
+              <th scope="col">Accuracy score</th>
+            </tr>
+          </thead>
+            <tbody>
+                {% for result in tpcs %}
+                
+                <tr>
+                  <th scope="row">{{ loop.index }}</th>
+                  <td>{{ result.score }}</td>
+                  <td>{{ result.topic }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+            <center>
+              <p>You can download the result table as an excel file by clicking the button below</p>
+              <a href="{{ excelfile }}" download="">
+                <button class="btn"><i class="fa fa-download"></i> Download</button>
+            </a>
+            </center>
+        {% endif %}
+
+
+        {% if algorithm == 'nmf' %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Topic Number</th>
+              <th scope="col">Vocabulary of The Topic</th>
+              <th scope="col">Accuracy score</th>
+            </tr>
+          </thead>
+            <tbody>
+                {% for result in tpcs %}
+                
+                <tr>
+                  <th scope="row">{{ loop.index }}</th>
+                  <td>{{ result.topic }}</td>
+                  <td>{{ result.score }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+
+            <center>
+              <p>You can download the result table as an excel file by clicking the button below</p>
+              <a href="{{ excelfile }}" download="">
+                <button class="btn"><i class="fa fa-download"></i> Download</button>
+            </a>
+            </center>
+        {% endif %}
+
+
+        {% if algorithm == 'pam' %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Topic Number</th>
+              <th scope="col">Topic</th>
+              <th scope="col">Sub Topics</th>
+              <th scope="col">Accuracy score</th>
+            </tr>
+          </thead>
+            <tbody>
+                {% for result in tpcs %}
+                
+                <tr>
+                  <th scope="row">{{ loop.index }}</th>
+                  <td>{{ result['topic'] }}</td>
+                  <td>{{ result['subs'] }}</td>
+                  <td>{{ result['prob'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+
+            <center>
+              <p>You can download the result table as an excel file by clicking the button below</p>
+              <a href="{{ excelfile }}" download="">
+                <button class="btn"><i class="fa fa-download"></i> Download</button>
+            </a>
+            </center>
+        {% endif %}
+    </div>
+      
+
+    
+</body>
+</html>
